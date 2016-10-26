@@ -117,7 +117,9 @@ npm install tsoa --save
 ## Command Line Interface
 
 For information on the configuration object (tsoa.json), check out the following:
+
 [Configuration definition](./src/config.ts)
+
 [Configuration sample](./tsoa.json)
 
 ### Swagger.json generation
