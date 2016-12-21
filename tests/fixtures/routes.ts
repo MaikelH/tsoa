@@ -6,6 +6,7 @@ import { PatchTestController } from './controllers/patchController';
 import { GetTestController } from './controllers/getController';
 import { DeleteTestController } from './controllers/deleteController';
 import { JwtGetTestController } from './controllers/jwtEnabledController';
+import { apiKeyEnabledController } from './controllers/apiKeyEnabledController';
 
 const models: any = {
   'TestSubModel': {
@@ -507,6 +508,20 @@ export function RegisterRoutes(app: any) {
       if (req.user_jwt_data.aud) controller.aud = req.user_jwt_data.aud;
     }
     promiseHandler(controller.GetWithJwt.apply(controller, validatedParams), res, next);
+  });
+  app.get('/v1/ApiKeyGetTest', function(req: any, res: any, next: any) {
+    const params = {
+    };
+
+    let validatedParams: any[] = [];
+    try {
+      validatedParams = getValidatedParams(params, req, '');
+    } catch (err) {
+      return next(err);
+    }
+
+    const controller = new apiKeyEnabledController();
+    promiseHandler(controller.GetWithApikey.apply(controller, validatedParams), res, next);
   });
 
   function promiseHandler(promise: any, response: any, next: any) {

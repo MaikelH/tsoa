@@ -91,6 +91,13 @@ describe('Server', () => {
     });
   });
 
+  it('[ApiKeyEnabled] can handle get request with no path argument', () => {
+    return verifyGetRequestWithApikeyHeader(basePath + '/ApiKeyGetTest', '1234', (err, res) => {
+      const model = res.body as BooleanResponseModel;
+      expect(model.success).to.equal(true);
+    });
+  });
+
   it('parsed body parameters', () => {
     const data = getFakeModel();
 
@@ -180,6 +187,10 @@ describe('Server', () => {
 
   function verifyGetRequest(path: string, verifyResponse: (err: any, res: request.Response) => any, expectedStatus?: number) {
     return verifyRequest(verifyResponse, request => request.get(path), expectedStatus);
+  }
+
+  function verifyGetRequestWithApikeyHeader(path: string, key: string, verifyResponse: (err: any, res: request.Response) => any, expectedStatus?: number) {
+    return verifyRequest(verifyResponse, request => request.get(path).set('apikey', key), expectedStatus);
   }
 
   function verifyPostRequest(path: string, data: any, verifyResponse: (err: any, res: request.Response) => any, expectedStatus?: number) {
